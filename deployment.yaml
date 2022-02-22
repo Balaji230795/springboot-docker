@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-app
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: springboot-app
+  template:
+    metadata:
+      labels:
+        app: springboot-app
+    spec:
+      containers:
+      - name: springboot-app
+        image: 616689340588.dkr.ecr.ap-south-1.amazonaws.com/springboot:latest
+        imagePullPolicy: Always
+        ports:
+           - containerPort : 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: springboot-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: springboot-app
+  ports:
+  - protocol: "TCP"
+    port: 8080
+    targetPort: 8080
+    
